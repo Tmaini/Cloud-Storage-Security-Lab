@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="An educational cloud storage security lab by Tushar Maini. Explore S3 policies, least privilege, and encrypted connections through local simulations.">
+  <title>AWS Cloud Storage Security Lab | Tushar Maini</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23142637'/%3E%3Ctext x='32' y='43' font-family='Arial' font-size='32' text-anchor='middle' fill='%235ce2c5'%3ES3%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header><a class="brand" href="#"><span class="mark">S3</span> CLOUD SECURITY LAB</a><nav aria-label="Main navigation"><a href="#lab">Policy lab</a><a href="#concepts">Learn</a><a href="#about">About</a></nav></header>
+<main id="main">
+<section class="intro wrap">
+  <p class="eyebrow">TUSHAR MAINI / CYBERSECURITY PROJECT</p>
+  <h1>AWS Cloud Storage<br><span>Security Lab.</span></h1>
+  <div class="intro-bottom"><p>Understand who can access your data.<br>Explore a policy, identify risk, and test a better approach.</p><span class="mode">LOCAL SIMULATION · NO AWS ACCOUNT</span></div>
+</section>
+<section id="lab" class="wrap lab-section">
+  <div class="section-heading"><div><p class="eyebrow">01 / EXPERIMENT</p><h2>Small changes. Different permissions.</h2></div><span class="chapter">S3 BUCKET POLICIES</span></div>
+  <p class="notice">This is an educational pattern checker, not an AWS authorization engine. Nothing is sent to AWS. It cannot determine real exposure or validate a complete IAM policy.</p>
+  <div class="lab-grid">
+    <div class="editor panel">
+      <label for="scenario">Choose a starting scenario</label>
+      <select id="scenario"><option value="publicRead">Public read access</option><option value="publicWrite">Public write access</option><option value="broadRole">Overly broad role permissions</option><option value="scoped">Scoped reader + HTTPS restriction</option></select>
+      <p id="scenario-note" class="muted"></p>
+      <div class="editor-heading"><label for="policy">Bucket policy JSON</label><button id="reset" class="quiet" type="button">Reset example</button></div>
+      <textarea id="policy" spellcheck="false" aria-describedby="editor-help" rows="20"></textarea>
+      <p id="editor-help" class="fine">Edit the sample or paste fictional policy JSON. Examples use the bucket <code>student-security-lab</code>.</p>
+      <div class="button-row"><button id="analyze" class="primary" type="button">Analyze policy <span aria-hidden="true">→</span></button><button id="format" class="secondary" type="button">Format JSON</button></div>
+      <p id="editor-status" role="status"></p>
+    </div>
+    <div class="results panel" aria-labelledby="result-heading">
+      <div class="result-top"><span class="eyebrow">POLICY REVIEW</span><span id="result-state" class="badge">Example loaded</span></div>
+      <h3 id="result-heading">What does this policy suggest?</h3>
+      <p id="result-summary" class="muted">Analyze the example to see findings and next steps.</p>
+      <div id="findings" aria-live="polite"></div>
+      <div class="boundary"><strong>What this review cannot see</strong><p>Account and bucket Block Public Access settings, ACLs, other IAM policies, encryption configuration, and actual access logs. Conditions and deny statements need contextual review. A policy finding does not prove that a bucket is public.</p></div>
+      <button id="download" class="secondary" type="button" disabled>Download review (.txt)</button>
+    </div>
+  </div>
+</section>
+<section id="concepts" class="wrap learning"><div class="section-heading"><div><p class="eyebrow">02 / UNDERSTAND</p><h2>Three layers to think about.</h2></div></div><div class="concept-grid">
+<article><span class="number">01</span><h3>Who can access it?</h3><p>A principal identifies who a policy applies to. An Allow with a wildcard principal deserves review because it can include anyone. Conditions and other controls still matter.</p><a href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-control-block-public-access.html" target="_blank" rel="noopener noreferrer">Read about Block Public Access ↗</a></article>
+<article><span class="number">02</span><h3>What can they do?</h3><p>Least privilege means granting only the actions and resources needed. A reader typically needs a narrower set of permissions than <code>s3:*</code>, which covers all S3 actions.</p><a href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/example-bucket-policies.html" target="_blank" rel="noopener noreferrer">Explore bucket policy examples ↗</a></article>
+<article><span class="number">03</span><h3>How does data travel?</h3><p>A deny rule using <code>aws:SecureTransport</code> can restrict non-HTTPS requests. Encryption in transit is separate from encryption at rest, which this lab does not inspect.</p><a href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/amazon-s3-policy-keys.html" target="_blank" rel="noopener noreferrer">Learn about condition keys ↗</a></article></div></section>
+<section class="walkthrough wrap"><div><p class="eyebrow">03 / DOCUMENT</p><h2>Turn an experiment<br>into evidence.</h2><p class="muted">Use these steps for your project write-up. Report observations from the local checker as simulated findings, not successful AWS deployments.</p></div><ol><li><strong>Inspect the starting policy.</strong><span>Choose public read access. Identify the principal, action, and resource.</span></li><li><strong>Review the findings.</strong><span>Analyze the policy and explain why each flagged pattern matters.</span></li><li><strong>Compare a narrower example.</strong><span>Select the scoped reader scenario. Observe what changes and what still needs verification.</span></li><li><strong>Save your evidence.</strong><span>Download both reviews and capture screenshots. Explain the limitations in your README.</span></li></ol></section>
+<section id="about" class="wrap about"><div><p class="eyebrow">BUILT TO LEARN</p><h2>Security starts with<br>asking better questions.</h2></div><div><p>I’m Tushar Maini, a cybersecurity student exploring cloud defense. This project connects S3 policy concepts with hands-on, browser-based exercises.</p><p class="muted">Built with HTML, CSS, and JavaScript. Runs locally or on GitHub Pages. No credentials, cloud resources, or paid services required. An independent student project, not affiliated with AWS.</p><div class="links"><a href="https://github.com/Tmaini" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="https://www.linkedin.com/in/tushar-maini-820876227/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a><a href="https://tmaini.github.io/SentryGT/" target="_blank" rel="noopener noreferrer">My Sentry project ↗</a></div></div></section>
+</main><footer class="wrap"><span>© 2026 Tushar Maini</span><span>LEARN · TEST · DOCUMENT</span><a href="#">Back to top ↑</a></footer>
+<noscript><p class="notice wrap">Enable JavaScript to use the interactive lab. The educational sections remain available.</p></noscript>
+</body></html>
